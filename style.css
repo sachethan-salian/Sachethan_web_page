@@ -1,20 +1,24 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
+    background-color: #1B0000;
     display: flex;
     justify-content: center;
        height: 100vh;
     margin: 0;
-
 }
-
 .signup-form {
-    padding: 1px;
-    background: white;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Blur effect for the background */
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     border-radius: 8px;
-animation: fadeIn 1s ease-out; /* Animation applied */
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
 }
+
+
+
 
 .signup-form h1 {
     text-align: center;
@@ -32,16 +36,50 @@ input, button {
 }
 
 button {
+    position: relative;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid transparent; /* Make border transparent instead of removing it to avoid shifting content */
     background-color: #5E81AC;
     color: white;
-    border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
+    overflow: hidden; /* Ensures pseudo-elements are clipped to the button's border radius */
+    transition: color 0.3s ease, background-color 0.3s ease;
+    font-size: 16px; /* Adjust based on your preference */
+    text-align: center;
+    text-decoration: none; /* Remove underline from links styled as buttons */
+    display: inline-block; /* Allows the use of padding and width/height */
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: white; /* Underline color */
+    transition: width 0.3s ease, left 0.3s ease; /* Smooth transition for the growing effect */
+}
+
+button:hover::before {
+    width: 100%;
+    left: 0;
 }
 
 button:hover {
-    background-color: #4C669F;
+    background-color: #4C669F; /* Change color on hover */
 }
+
+button:focus {
+    outline: none; /* Remove outline on focus for aesthetic reasons, but consider accessibility implications */
+}
+
+button:active {
+    transform: scale(0.98); /* Slightly shrink button when clicked for a tactile feel */
+}
+
+
 
 /* Add more styles as needed */
 /.blur-effect {
