@@ -1,28 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="style.css" id="theme-style">
-</head>
-<body>
-<div class="center-flex">
-    <div class="signup-form">
-        <h1>Login</h1>
-        <form action="login.php" method="post">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-		<p>If your sign up not done, please <a href="index.html">sign up</a>.</p> <!-- Add this line -->
-    
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-<button id="toggle-theme" class="theme-toggle-btn">
-    <i class="fas fa-sun" style="display:none;"></i> <!-- Hidden by default -->
-    <i class="fas fa-moon"></i>
-</button>	
-</div> </div>
-<script src="script.js"></script>
-</body>
-</html>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    $isValid = false;
+
+    // Read the data.txt file line by line
+    $handle = fopen("data.txt", "r");
+    if ($handle) {
+        while (($line = fgets($handle)) !== false) {
+            // Split the line into parts
+            list($savedUsername, $savedEmail, $savedPasswordHash) = explode(", ", $line);
+            // Remove the prefix and trim whitespace
+            $savedUsername = trim(substr($savedUsername, strpos($savedUsername, ":") + 1));
+            $savedPasswordHash = trim(substr($savedPasswordHash, strpos($savedPasswordHash, ":") + 1));
+
+            // Check if the submitted username matches and verify the password
+            if ($username === $savedUsername && password_verify($password, $savedPasswordHash)) {
+                $isValid = true;
+                break;
+            }
+        }
+        fclose($handle);
+    }
+
+    if ($isValid) {
+    // Redirect to main page
+    header('Location: main.html');
+    exit; // Ensure no further script execution after redirection
+} else {
+    header('Location: faild.html');
+}
+
+} else {
+    // Redirect back to login form or handle accordingly
+    header('Location: login.html');
+    exit;
+}
+?>
