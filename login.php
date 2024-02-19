@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isValid = false;
 
     // Read the data.txt file line by line
-    $handle = fopen("d:\\data.txt", "r");
+    $handle = fopen("data.txt", "r");
     if ($handle) {
         while (($line = fgets($handle)) !== false) {
             // Split the line into parts
