@@ -7,29 +7,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Hash the password securely
     $password = password_hash(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS), PASSWORD_DEFAULT);
 
-    // Prepare the data to be saved
-    $data = "Username: $username, Email: $email, Password: $password\n";
-
     // Specify the absolute file path where data will be saved
-    $filename = "data.txt"; // Ensure this path is correct and accessible
+    $filename = "data.txt"; // Adjust this path as necessary
 
-    // Check if the script can write to the specified path
-    if (!is_writable($filename) && !file_exists($filename)) {
-        // Attempt to check if the directory is writable if the file doesn't exist
-        if (!is_writable(dirname($filename))) {
-            echo "Error: The file or directory is not writable.";
-            exit; // Stop the script
+    $userExists = false;
+
+    // Check if the file exists and is readable
+    if (file_exists($filename) && is_readable($filename)) {
+        // Read file line by line to check for existing user
+        $file = fopen($filename, "r");
+        while (($line = fgets($file)) !== false) {
+            if (strpos($line, "Username: $username") !== false) {
+                $userExists = true;
+                break; // User found, no need to continue checking
+            }
         }
+        fclose($file);
     }
 
-    // Attempt to write the data to the file
-    if (file_put_contents($filename, $data, FILE_APPEND)) {
-    // Signup was successful
-    echo "<script>alert('Signup successful!'); window.location = 'login.html';</script>";
-} else {
-    echo "Error: Could not save the data.";
-}
-
+    if ($userExists) {
+        // Inform the user that the username already exists
+        echo "<script>alert('User already exists!'); window.location = 'login.html';</script>";
+    } else {
+        // User doesn't exist, proceed with saving the new user data
+        $data = "Username: $username, Email: $email, Password: $password\n";
+        if (file_put_contents($filename, $data, FILE_APPEND | LOCK_EX)) {
+            // Signup was successful
+            echo "<script>alert('Signup successful!'); window.location = 'login.html';</script>";
+        } else {
+            echo "Error: Could not save the data.";
+        }
+    }
 } else {
     // Not a POST request, redirect to the form or handle accordingly
     header('Location: index.html');
