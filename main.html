@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photography Showcase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+            text-align: center;
+            overflow-x: hidden; /* Prevents horizontal scroll */
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
+            transform: translateX(0);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        input, button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        input {
+            border: 1px solid #ddd;
+            width: 200px;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #23a6d5;
+            color: white;
+            width: 220px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #23d5ab;
+        }
+
+        #photoGallery img {
+            margin: 10px;
+            border-radius: 5px;
+            width: auto;
+            max-width: 90%;
+            height: auto;
+            transition: transform 0.5s ease;
+        }
+
+        #photoGallery img:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        #photoGallery {
+            animation: fadeIn 2s;
+        }
+
+        .toggle-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    margin-top: 20px;
+    font-size: 14px;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline; /* Makes it look more like a link */
+}
+
+    .photo-item {
+        position: relative;
+        display: inline-block;
+        margin: 10px;
+    }
+
+    .photo-item img {
+        border-radius: 5px;
+        width: auto;
+        max-width: 90%;
+        height: auto;
+        transition: transform 0.5s ease;
+    }
+
+    .photo-item img:hover {
+        transform: scale(1.05);
+    }
+
+    .photo-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+        color: #fff;
+        text-align: center;
+        padding: 3px;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .photo-item:hover .photo-caption {
+        opacity: 1;
+    }
+    </style>
+    <script>
+        function toggleForms() {
+            const loginSection = document.getElementById('loginSection');
+            const signupSection = document.getElementById('signupSection');
+            if (loginSection.style.display === 'none' || loginSection.style.display === '') {
+                loginSection.style.display = 'block';
+                signupSection.style.display = 'none';
+            } else {
+                loginSection.style.display = 'none';
+                signupSection.style.display = 'block';
+            }
+        }
+
+        function checkLogin() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                document.getElementById('formContainer').style.display = 'none';
+                document.getElementById('photoGallery').style.display = 'block';
+            } else {
+                document.getElementById('formContainer').style.display = 'block';
+                document.getElementById('photoGallery').style.display = 'none';
+            }
+        }
+
+        function signup(e) {
+            e.preventDefault();
+            const username = document.getElementById('signupUsername').value;
+            const password = document.getElementById('signupPassword').value;
+            localStorage.setItem('username', username);
+            localStorage.setItem('password', password);
+            alert('Signup successful. You can now log in.');
+            toggleForms(); // Automatically switch to login after signup
+        }
+
+        function login(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            if (username === localStorage.getItem('username') && password === localStorage.getItem('password')) {
+                localStorage.setItem('isLoggedIn', 'true');
+                checkLogin();
+            } else {
+                alert('Login failed. Please check your username and password.');
+            }
+        }
+
+        function logout() {
+            localStorage.setItem('isLoggedIn', 'false');
+            checkLogin();
+        }
+
+        window.onload = function() {
+            document.getElementById('signupForm').addEventListener('submit', signup);
+            document.getElementById('loginForm').addEventListener('submit', login);
+            document.getElementById('loginSection').style.display = 'none'; // Initially hide login
+            checkLogin();
+        };
+    </script>
+</head>
+<body>
+    <div id="formContainer">
+        <div id="signupSection" class="form-container">
+<h1>Sachethan Salian Official Page</h1>
+            <h3
+>Sign Up</h3>
+            <form id="signupForm">
+                <input type="text" id="signupUsername" placeholder="Username" required> <br>
+                <input type="password" id="signupPassword" placeholder="Password" required> <br>
+                <button type="submit">Sign Up</button> <br>
+                <button type="button" class="toggle-btn" onclick="toggleForms()">Already have an account? Login</button>
+            </form>
+        </div>
+
+        <div id="loginSection" class="form-container">
+            <h1>Sachethan Salian Official Page</h1>
+<h3>Login</h3>
+            <form id="loginForm">
+                <input type="text" id="loginUsername" placeholder="Username" required><br>
+                <input type="password" id="loginPassword" placeholder="Password" required><br>
+                <button type="submit">Login</button><br>
+                <button type="button" class="toggle-btn" onclick="toggleForms()">Need to signup? Register</button>
+            </form>
+        </div>
+    </div>
+
+
+   <div id="photoGallery" style="display:none;">
+<h1>Sachethan Salian Official Page</h1>
+    <h2>Edited Photos</h2>
+    <div class="photo-item">
+        <img src="1.jpeg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div> 
+<div class="photo-item">
+        <img src="2.jpeg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div> 
+<div class="photo-item">
+        <img src="3.jpeg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div> <br>
+<div class="photo-item">
+        <img src="4.jpeg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div> 
+<div class="photo-item">
+        <img src="5.jpeg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div>
+<div class="photo-item">
+        <img src="6.jpeg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div> <br>
+<div class="photo-item">
+        <img src="7.jpg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div>
+<div class="photo-item">
+        <img src="8.jpg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div>
+<div class="photo-item">
+        <img src="9.jpg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div> <br>
+<div class="photo-item">
+        <img src="10.jpg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div>
+<div class="photo-item">
+        <img src="11.jpg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div>
+<div class="photo-item">
+        <img src="12.jpg" alt="Photo 1" style="width:100%;max-width:300px"> <div class="photo-caption"></div> </div> <br>
+    <!-- Repeat for other photos -->
+    <br>
+
+    <button onclick="logout()">Logout</button>
+</div>
+
+</body>
+</html>
