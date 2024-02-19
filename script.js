@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function updateButtonText() {
         const isDarkMode = document.body.classList.contains('dark-mode');
         toggleThemeBtn.querySelector('span').textContent = isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-        themeStyle.setAttribute('href', isDarkMode ? 'css/dark-mode.css' : 'css/style.css');
+        themeStyle.setAttribute('href', isDarkMode ? 'dark-mode.css' : 'style.css');
     }
 
     toggleThemeBtn.addEventListener('click', function() {
