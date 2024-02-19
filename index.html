@@ -6,8 +6,8 @@
     <title>Signup Page</title>
     <link rel="stylesheet" href="style.css" id="theme-style">
 </head>
-<body> 
-<center> <h1> SACHETHAN SALIAN </h1> 
+<h1> SACHETHAN SALIAN </h1> 
+<body>  
 <div class="center-flex">
     <div class="signup-form">
         <h1>Sign Up</h1>
@@ -19,11 +19,12 @@
 </form>
 <p>If you have already signed up, please <a href="login.html">login</a>.</p> <!-- Add this line -->
  </br>
-        
-    
-<button id="toggle-theme"><span>Toggle Dark/Light Mode</span></button>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+<button id="toggle-theme" class="theme-toggle-btn">
+    <i class="fas fa-sun" style="display:none;"></i> <!-- Hidden by default -->
+    <i class="fas fa-moon"></i>
+</button>	
 </div> </div>
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
