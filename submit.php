@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = "Username: $username, Email: $email, Password: $password\n";
 
     // Specify the absolute file path where data will be saved
-    $filename = "d:\\data.txt"; // Ensure this path is correct and accessible
+    $filename = "data.txt"; // Ensure this path is correct and accessible
 
     // Check if the script can write to the specified path
     if (!is_writable($filename) && !file_exists($filename)) {
